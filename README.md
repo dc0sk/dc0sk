@@ -16,6 +16,6 @@ Here are some ideas to get you started:
 -->
 [![Donate via PayPal](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/donate/?hosted_button_id=WY9U4MQ3ZAQWC)
 
-If this project helps your work, please consider supporting ongoing development:
+If my work is helpful to you or you just like it, please consider supporting ongoing development:
 
 https://www.paypal.com/donate/?hosted_button_id=WY9U4MQ3ZAQWC
