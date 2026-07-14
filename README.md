@@ -2,7 +2,7 @@
 
 I build **open-source Rust systems** at the intersection of **amateur radio, computational electromagnetics, and practical HF data communication**. My work turns real engineering requirements into reliable, verifiable tools — from antenna-length planning and NEC-compatible modeling to plugin-based digital modem architecture and rig remote control.
 
-🌐 **[View my project page →](https://dc0sk.github.io/dc0sk/)**
+🌐 **[View my project page →](https://dc0sk.github.io/)**
 
 ## Abstract
 
