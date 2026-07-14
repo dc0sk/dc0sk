@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DC0SK — Open-source Rust for amateur radio &amp; computational EM</title>
+<meta name="description" content="DC0SK builds open-source Rust systems for amateur radio, computational electromagnetics, and practical HF data communication.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📡</text></svg>">
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-soft: #161b22;
+    --border: #30363d;
+    --fg: #e6edf3;
+    --muted: #9198a1;
+    --accent: #58a6ff;
+    --accent-soft: rgba(88,166,255,0.12);
+    --radio: #f0883e;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #ffffff;
+      --bg-soft: #f6f8fa;
+      --border: #d1d9e0;
+      --fg: #1f2328;
+      --muted: #59636e;
+      --accent: #0969da;
+      --accent-soft: rgba(9,105,218,0.08);
+      --radio: #bc4c00;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+    line-height: 1.65;
+    color: var(--fg);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 20px; }
+
+  /* Hero */
+  header.hero {
+    position: relative;
+    padding: 72px 0 56px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+    background:
+      radial-gradient(900px 400px at 15% -10%, var(--accent-soft), transparent 60%),
+      radial-gradient(700px 350px at 100% 0%, rgba(240,136,62,0.10), transparent 55%);
+  }
+  .callsign {
+    display: inline-block;
+    font-family: ui-monospace, "SFMono-Regular", "Cascadia Code", Consolas, monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.22em;
+    color: var(--radio);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 4px 14px;
+    margin-bottom: 18px;
+    background: var(--bg-soft);
+  }
+  h1 {
+    font-size: clamp(2rem, 6vw, 3rem);
+    line-height: 1.1;
+    margin: 0 0 16px;
+    letter-spacing: -0.02em;
+  }
+  h1 .hl { color: var(--accent); }
+  .lede { font-size: 1.15rem; color: var(--muted); max-width: 62ch; margin: 0 0 28px; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 18px; border-radius: 8px; font-weight: 600; font-size: 0.95rem;
+    border: 1px solid var(--border);
+  }
+  .btn.primary { background: var(--accent); color: #fff; border-color: transparent; }
+  .btn.primary:hover { text-decoration: none; filter: brightness(1.08); }
+  .btn.ghost { background: var(--bg-soft); color: var(--fg); }
+  .btn.ghost:hover { text-decoration: none; border-color: var(--accent); }
+  .btn.donate { background: transparent; color: var(--radio); border-color: var(--radio); }
+  .btn.donate:hover { text-decoration: none; background: rgba(240,136,62,0.10); }
+
+  section { padding: 52px 0; border-bottom: 1px solid var(--border); }
+  h2 { font-size: 1.5rem; letter-spacing: -0.01em; margin: 0 0 8px; }
+  .section-sub { color: var(--muted); margin: 0 0 28px; }
+  p { color: var(--fg); }
+  .prose p { color: var(--muted); max-width: 68ch; }
+
+  /* Projects */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+  .card {
+    display: block; padding: 20px; border: 1px solid var(--border); border-radius: 12px;
+    background: var(--bg-soft); transition: transform .15s ease, border-color .15s ease;
+  }
+  .card:hover { text-decoration: none; transform: translateY(-3px); border-color: var(--accent); }
+  .card .name { font-weight: 700; font-size: 1.05rem; color: var(--fg); font-family: ui-monospace, monospace; }
+  .card .desc { color: var(--muted); font-size: 0.92rem; margin: 8px 0 14px; }
+  .card .meta { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--muted); }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--radio); display: inline-block; }
+
+  /* Principles */
+  .principles { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 18px; }
+  .principle { border-left: 2px solid var(--accent); padding: 2px 0 2px 16px; }
+  .principle h3 { margin: 0 0 4px; font-size: 1rem; }
+  .principle p { margin: 0; color: var(--muted); font-size: 0.92rem; }
+
+  /* Support */
+  .support-box {
+    text-align: center; padding: 40px 24px; border: 1px solid var(--border);
+    border-radius: 16px; background: var(--bg-soft);
+    background-image: radial-gradient(500px 200px at 50% 0%, var(--accent-soft), transparent 70%);
+  }
+  .support-box h2 { margin-bottom: 10px; }
+  .support-box p { color: var(--muted); max-width: 52ch; margin: 0 auto 24px; }
+
+  footer { padding: 40px 0; text-align: center; color: var(--muted); font-size: 0.88rem; }
+  footer a { color: var(--muted); }
+  footer a:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="callsign">📡 DC0SK</span>
+    <h1>Open-source <span class="hl">Rust</span> for amateur radio &amp; computational EM</h1>
+    <p class="lede">I turn real engineering requirements into reliable, verifiable tools — antenna planning, NEC-compatible modeling, HF data communication, and rig remote control.</p>
+    <div class="cta">
+      <a class="btn primary" href="#projects">Explore projects</a>
+      <a class="btn ghost" href="https://github.com/dc0sk">GitHub profile ↗</a>
+      <a class="btn donate" href="https://www.paypal.com/donate/?hosted_button_id=WY9U4MQ3ZAQWC">♥ Donate via PayPal</a>
+    </div>
+  </div>
+</header>
+
+<section class="prose">
+  <div class="wrap">
+    <h2>About</h2>
+    <p>My approach is strongly rooted in <strong>requirements engineering</strong>. I define clear problem boundaries, keep interfaces explicit, validate assumptions with testable designs, and evolve systems in modular steps that stay maintainable over time. The goal is not only to make things work, but to make them <strong>understandable, verifiable, and reusable</strong> by others.</p>
+    <p>I am deeply dedicated to <strong>Free and Open Source Software</strong>: building in public, choosing copyleft licenses for shared progress, and contributing software that helps the radio and engineering communities learn, experiment, and collaborate.</p>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <h2>Projects</h2>
+    <p class="section-sub">All public, all Rust, all built in the open.</p>
+    <div class="grid">
+      <a class="card" href="https://github.com/dc0sk/rusty-wire">
+        <div class="name">rusty-wire</div>
+        <div class="desc">Wire-antenna planning across ham-radio and shortwave bands.</div>
+        <div class="meta"><span class="dot"></span> Rust</div>
+      </a>
+      <a class="card" href="https://github.com/dc0sk/fnec-rust">
+        <div class="name">fnec-rust</div>
+        <div class="desc">A free and modern NEC client for antenna modeling.</div>
+        <div class="meta"><span class="dot"></span> Rust</div>
+      </a>
+      <a class="card" href="https://github.com/dc0sk/OpenPulseHF">
+        <div class="name">OpenPulseHF</div>
+        <div class="desc">Transmit data via HF — a plugin-based digital modem.</div>
+        <div class="meta"><span class="dot"></span> Rust</div>
+      </a>
+      <a class="card" href="https://github.com/dc0sk/landline">
+        <div class="name">landline</div>
+        <div class="desc">Open-source ham-radio rig remote control.</div>
+        <div class="meta"><span class="dot"></span> Rust</div>
+      </a>
+      <a class="card" href="https://github.com/dc0sk/K4remote">
+        <div class="name">K4remote</div>
+        <div class="desc">An open-source remote panel for the Elecraft K4.</div>
+        <div class="meta"><span class="dot"></span> Rust</div>
+      </a>
+      <a class="card" href="https://github.com/dc0sk?tab=repositories" style="display:flex;align-items:center;justify-content:center;text-align:center;">
+        <div class="name" style="color:var(--accent)">All repositories →</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>How I engineer</h2>
+    <p class="section-sub">From requirements to reproducible results — stewardship held to the same standard as code.</p>
+    <div class="principles">
+      <div class="principle">
+        <h3>Traceable execution</h3>
+        <p>Every capability traces from a stated requirement through design and implementation to the tests that prove it.</p>
+      </div>
+      <div class="principle">
+        <h3>Challenging solutions</h3>
+        <p>Not just reusing classic ideas — rethinking structure and modularity for portability and long-term evolution.</p>
+      </div>
+      <div class="principle">
+        <h3>Layered validation</h3>
+        <p>From parser and model consistency checks to numerical sanity checks and benchmark comparisons.</p>
+      </div>
+      <div class="principle">
+        <h3>Quality gates before every push</h3>
+        <p>Format, lint with warnings as errors, the full test suite, and a security audit run automatically. Coverage is a release gate.</p>
+      </div>
+      <div class="principle">
+        <h3>Small, well-labeled changes</h3>
+        <p>One logical change per branch, docs updated alongside code, and disciplined semver releases with changelogs.</p>
+      </div>
+      <div class="principle">
+        <h3>Stable interfaces</h3>
+        <p>Public plugin and API surfaces are versioned semantically, so extensions survive upgrades — every break ships a migration path.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="support-box">
+      <h2>Support this work</h2>
+      <p>Sponsorship funds sustained time on high-value FOSS engineering for radio and computational electromagnetics: better-documented releases, more test infrastructure, and prioritized community features. If my work is useful to you, a donation keeps the core tooling open, modular, and accessible.</p>
+      <a class="btn donate" href="https://www.paypal.com/donate/?hosted_button_id=WY9U4MQ3ZAQWC">♥ Donate via PayPal</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>DC0SK · Open-source Rust · <a href="https://github.com/dc0sk">github.com/dc0sk</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
