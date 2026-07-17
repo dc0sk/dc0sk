@@ -16,7 +16,7 @@ I am deeply dedicated to **Free and Open Source Software (FOSS)**: building in p
 | --- | --- | --- |
 | [**rusty-wire**](https://github.com/dc0sk/rusty-wire) | Wire-antenna planning across ham-radio and shortwave bands | Rust |
 | [**fnec-rust**](https://github.com/dc0sk/fnec-rust) | A free and modern NEC client for antenna modeling | Rust |
-| [**OpenPulseHF**](https://github.com/dc0sk/OpenPulseHF) | Transmit data via HF — plugin-based digital modem | Rust |
+| [**OpenPulseHF**](https://dc0sk.github.io/OpenPulseHF/) | Transmit data via HF — plugin-based digital modem | Rust |
 | [**landline**](https://github.com/dc0sk/landline) | Open-source ham-radio rig remote control | Rust |
 | [**K4remote**](https://dc0sk.github.io/K4remote/) | An open-source remote panel for the Elecraft K4 | Rust |
 
